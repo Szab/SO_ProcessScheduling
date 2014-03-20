@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+﻿import java.util.ArrayList;
 import java.util.UUID;
 
 public class ProcessManager
@@ -18,7 +18,7 @@ public class ProcessManager
             {
                 String randomID = template.id
                         +UUID.randomUUID().toString(); // Generowanie losowego ID
-                Process newProcess = new Process(randomID,template.duration);
+                Process newProcess = new Process(randomID,template.duration, workTime);
                 _processList.add(newProcess);
                 template.remaining--;
             }

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class FileParser
 {
     private String _path = "";                  // Ścieżka pliku z procesami
-    private ArrayList<Process> _processList; 
-    private ArrayList<ProcessTemplate> _templateList;// Lista robocza
+    private ArrayList<Process> _processList; 	// Lista robocza procesów
+    private ArrayList<ProcessTemplate> _templateList; // Lista robocza wzorów
     
     public FileParser(String path)
     {
@@ -18,7 +18,7 @@ public class FileParser
     // Ładowanie procesów do zmiennej
     public void loadProcessList()
     {
-        FileReader reader = null;
+        FileReader reader = null;			// Deklaracja zmiennych odczytu
         BufferedReader breader = null;
 
         try
@@ -26,15 +26,16 @@ public class FileParser
             reader = new FileReader(_path);
             breader = new BufferedReader(reader);
             
+			// Odczytywanie kolejnych linii i tworzenie kolejnych obiektów
             while(breader.ready())
             {
                 String fileLine = breader.readLine();
                 String[] command = fileLine.split(" ");
-                if( command.length==2 )
+                if( command.length==2 )		// Ładowanie procesów stałych
                 {
-                    _processList.add( new Process(command[0],Integer.parseInt(command[1]) ));
+                    _processList.add( new Process( command[0] , Integer.parseInt(command[1]) ));
                 }
-                if( command[0].equals("GEN") )
+                if( command[0].equals("GEN") )	// Ładowanie procesów generowanych
                 {
                     _templateList.add( new ProcessTemplate(command[3],Integer.parseInt(command[4])
                             ,Integer.parseInt(command[1]),Integer.parseInt(command[2])) );
@@ -49,6 +50,7 @@ public class FileParser
         }
         finally
         {
+			// ZAMKNIĘCIE STRUMIENIA
             if(breader != null) 
             {
                 try
