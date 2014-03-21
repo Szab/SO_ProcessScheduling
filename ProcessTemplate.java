@@ -1,5 +1,6 @@
-// PRZYKŁAD UŻYCIA W PLIKACH
-// GEN [interwal] [ile razy] [id] [dlugosc]
+/* Klasa ProcessTemplate: szablon struktury procesu dla generatora procesów
+PRZYKŁAD UŻYCIA W PLIKACH:
+GEN [interwal] [ile razy] [id] [dlugosc] */
 
 public class ProcessTemplate
 {

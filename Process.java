@@ -1,3 +1,5 @@
+/* Klasa Process: reprezentacja procesu w programie */
+
 public class Process
 {
     public int duration = 0; // Czas potrzebny do realizacji procesu
@@ -6,7 +8,7 @@ public class Process
     String id = "";          // Identyfikator procesu
     
 	// Konstruktor dwuparametrowy dla procesów wczytywanych na początku
-	public Process(Strng id, Integer duration)
+	public Process(String id, Integer duration)
 	{
 		this(id, duration, 0);
 	}

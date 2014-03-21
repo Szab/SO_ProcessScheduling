@@ -1,3 +1,9 @@
+/* Klasa FileParser:
+- Wczytywanie listy procesów z pliku
+- Generowanie listy procesów
+- Generowanie listy szablonów
+*/
+
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.ArrayList;
