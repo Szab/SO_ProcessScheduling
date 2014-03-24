@@ -14,6 +14,8 @@ public class ProcessManager
     public int workTime = 0; // Liczba zrealizowanych kwantów czasu
     public int overallWaited = 0; // Suma czasów oczekiwania na wykonanie
     
+    private boolean _locked = false;
+    
     public ArrayList<Process> processList; // Lista procesów do zrealizowania
                                              // PAMIĘTAĆ O ZACHOWANIU KOLEJNOŚCI
     private ArrayList<ProcessTemplate> _templateList; // Lista szablonów dla generatora
@@ -31,24 +33,29 @@ public class ProcessManager
     {        
         while(!_simulation.isDone())
         {
-            processGenerator();
-            IOController.generate(this);
-            _simulation.serve(processList);
+            processGenerator(); // Wywołanie generatora procesów
+            IOController.generate(this); // Aktualizacja statystyk
+            _simulation.serve(); // Realizacja algorytmu
         }
     }
     
-    // Blokuje nieskończenie generowane procesy
+    // Blokada generatora procesów
     public void lockProcessGenerator()
     {
-        for(ProcessTemplate template : _templateList)
-        {
-            if(template.remaining<0) template.remaining = 0;
-        }
+        _locked = true;
+    }
+    
+    
+    // Odblokowanie generatora procesów
+    public void unlockProcessGenerator()
+    {
+        _locked = false;
     }
     
     // Dodaje generowane procesy do listy
     private void processGenerator()
     {
+        if(_locked) return;
         for(ProcessTemplate template : _templateList)
         {
             if(template.remaining!=0 && workTime%template.interval == 0)
