@@ -11,16 +11,16 @@ public class FCFSsimulation extends Simulation
 	public void serve() 
 	{
 		current = nextProcess();
-		while(!((current== null) || current.isDone()))
+		if(procMan.processList.size() > 1 && !current.isDone())
 		{
-			if(procMan.processList.size() > 1)
+			procMan.workTime++;
+			current.doIt();
+			procMan.overallWaited += procMan.processList.size()-1;
+		}else {
+			if(!(current == null || current.isDone()))
 			{
-				current.doIt();
-				procMan.workTime++;
-				procMan.overallWaited += procMan.processList.size()-1;
-			}else {
-				current.doIt();
-				procMan.workTime++;
+			current.doIt();
+			procMan.workTime++;
 			}
 		}
 	}
