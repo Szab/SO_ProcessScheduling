@@ -3,20 +3,17 @@
 public class Process
 {
     public int duration = 0; // Czas potrzebny do realizacji procesu
-    public int timeLeft = 0; // Pozosta³y czas do pe³nej realizacji procesu
-    public int timeCreated = 0; // Jednostka czasu w której utworzono proces
+    public int timeLeft = 0; // Pozostaï¿½y czas do peï¿½nej realizacji procesu
+    public int timeCreated = 0; // Jednostka czasu w ktï¿½rej utworzono proces
     String id = ""; // Identyfikator procesu
     
-// Konstruktor dwuparametrowy dla procesów wczytywanych na pocz¹tku
+// Konstruktor dwuparametrowy dla procesï¿½w wczytywanych na poczï¿½tku
 public Process(String id, Integer duration)
 {
-this.id=id;
-this.duration=duration;
-this.timeLeft = this.duration;
-this.timeCreated=0;
+this(id,duration,0);
 }
 
-// W³aœciwy konstruktor
+// Wï¿½aï¿½ciwy konstruktor
     public Process(String id, Integer duration, Integer timeCreated)
     {
         this.duration = duration;
