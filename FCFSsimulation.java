@@ -1,33 +1,50 @@
 
 public class FCFSsimulation extends Simulation
-{
+{	
+	public Process current = null;
+	
 	public FCFSsimulation(ProcessManager processManager) 
 	{
 		super(processManager);
 	}
+	@Override
 	public void serve() 
-	{	
-		if(procMan.processList.size() > 1)
+	{
+		current = nextProcess();
+		while(!((current== null) || current.isDone()))
 		{
-			Process process = nextProcess();
-			procMan.workTime += process.duration;
-			procMan.overallWaited += procMan.workTime - process.timeCreated;
-			procMan.numberRealised++;
-			procMan.processList.remove(process);
-		}else {
-			Process process = nextProcess();
-			procMan.workTime += process.duration;
-			procMan.overallWaited += process.duration;
-			procMan.numberRealised++;
-			procMan.processList.remove(process);
+			if(procMan.processList.size() > 1)
+			{
+				current.doIt();
+				procMan.workTime++;
+				procMan.overallWaited += procMan.processList.size()-1;
+			}else {
+				current.doIt();
+				procMan.workTime++;
+			}
 		}
 	}
 	public Process nextProcess() 
 	{
-		return procMan.processList.get(0);
+		Process next = null;
+		if(procMan.processList.get(0).isDone())
+		{
+			procMan.numberRealised++;
+			procMan.processList.remove(0);
+			if(procMan.processList.size()>0)
+			{
+				next = procMan.processList.get(0);
+			}else{
+				next = null;
+			}
+		}else {
+			next = procMan.processList.get(0);
+		}
+		return next == null ? null : next;
 	}
+	@Override
 	public boolean isDone() {
-		return procMan.processList.isEmpty();
+		return current == null && procMan.numberRealised > 0;
 	}
 	
 	
