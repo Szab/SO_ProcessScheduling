@@ -25,7 +25,7 @@ public class ProcessManager
     // Zwraca sredni czas oczekiwania na realizacje
     public double getAverageTime()
     {
-        return numberRealised==0 ? 0 : overallWaited/numberRealised;
+        return numberRealised==0 ? 0 : (double) overallWaited/numberRealised;
     }
     
     // Obsługa procesu
