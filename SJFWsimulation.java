@@ -1,7 +1,6 @@
 
 public class SJFWsimulation extends Simulation
 {
-	Process current = null;
 	
 	public SJFWsimulation(ProcessManager processManager)
 	{
@@ -46,14 +45,14 @@ public class SJFWsimulation extends Simulation
 	}
 	public Process getShort()
 	{
-		int shortestTime = 100000;
+		int shortestTime = -1;
 		Process shortest = null;
 		if(procMan.processList.size()>0)
 		{
 			for(int i=0; i<procMan.processList.size(); i++)
 			{
 				Process tempProc = procMan.processList.get(i);
-				if(tempProc.timeLeft<shortestTime)
+				if((shortestTime<0)||(tempProc.timeLeft<shortestTime))
 				{
 					shortestTime = tempProc.timeLeft;
 					shortest = tempProc;

@@ -1,5 +1,6 @@
 public abstract class Simulation 
 {
+    public Process current = null;
 	public int simulationOption = 0;
 	
     public ProcessManager procMan;

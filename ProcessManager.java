@@ -20,12 +20,12 @@ public class ProcessManager
                                              // PAMIĘTAĆ O ZACHOWANIU KOLEJNOŚCI
     private ArrayList<ProcessTemplate> _templateList; // Lista szablonów dla generatora
     
-    private Simulation _simulation = new Simulation(this); // Obecnie wykonywana symulacja
+    private Simulation _simulation; // Obecnie wykonywana symulacja
     
     // Zwraca sredni czas oczekiwania na realizacje
     public double getAverageTime()
     {
-        return numberRealised==0 ? 0 : (double) overallWaited/numberRealised;
+        return numberRealised==0 ? 0 : (double)overallWaited/(double)numberRealised;
     }
     
     // Obsługa procesu
@@ -37,6 +37,7 @@ public class ProcessManager
             IOController.generate(this); // Aktualizacja statystyk
             _simulation.serve(); // Realizacja algorytmu
         }
+         IOController.generate(this); // Aktualizacja statystyk
     }
     
     // Blokada generatora procesów
@@ -69,10 +70,17 @@ public class ProcessManager
         }
     }
     
+    // Pobiera obecnie realizowany proces
+    public Process getCurrent()
+    {
+        return _simulation.current;
+    }
+    
     public ProcessManager(ArrayList<Process> processList, ArrayList<ProcessTemplate> templateList)
     {
         this.processList = processList;
         _templateList = templateList;
+        this._simulation = new SJFWsimulation(this);
     }
     
 }

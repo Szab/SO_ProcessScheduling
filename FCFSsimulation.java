@@ -1,7 +1,6 @@
 
 public class FCFSsimulation extends Simulation
-{	
-	public Process current = null;
+{		
 	
 	public FCFSsimulation(ProcessManager processManager) 
 	{

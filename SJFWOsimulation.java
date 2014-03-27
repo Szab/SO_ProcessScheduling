@@ -1,17 +1,19 @@
 
 public class SJFWOsimulation extends Simulation
 {
-	Process current = getShort();
 	
 	public SJFWOsimulation(ProcessManager processManager) 
 	{
 		super(processManager);
+                current = getShort();
 	}
+        
 	@Override
 	public boolean isDone() 
 	{
 		return current == null && procMan.numberRealised > 0;
 	}
+        
 	@Override
 	public void serve() 
 	{
@@ -30,9 +32,10 @@ public class SJFWOsimulation extends Simulation
 		}
 		
 	}
+        
 	public Process nextProcess()
 	{
-		if(current.isDone())
+		if((current.isDone()))
 		{
 			procMan.numberRealised++;
 			procMan.processList.remove(current);
@@ -41,17 +44,18 @@ public class SJFWOsimulation extends Simulation
 			return current;
 		}
 	}
+        
 	public Process getShort()
 	{
-		int shortestTime = 100000;
+		int shortestTime = -1;
 		Process shortest = null;
 		if(procMan.processList.size()>0)
 		{
 			for(Process tempProc : procMan.processList)
 			{
-				if(tempProc.timeLeft<shortestTime)
+				if((shortestTime==-1)||(tempProc.duration<shortestTime))
 				{
-					shortestTime = tempProc.timeLeft;
+					shortestTime = tempProc.duration;
 					shortest = tempProc;
 				}
 			}
