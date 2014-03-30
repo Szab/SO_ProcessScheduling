@@ -13,14 +13,16 @@ public class ProcessManager
     public int numberRealised = 0; // Liczba w pełni zrealizowanych procesów
     public int workTime = 0; // Liczba zrealizowanych kwantów czasu
     public int overallWaited = 0; // Suma czasów oczekiwania na wykonanie
+    public int quantSize = 0;  // Długość kwantu czasu dla ROT
     
     private boolean _locked = false;
     
     public ArrayList<Process> processList; // Lista procesów do zrealizowania
                                              // PAMIĘTAĆ O ZACHOWANIU KOLEJNOŚCI
-    private ArrayList<ProcessTemplate> _templateList; // Lista szablonów dla generatora
+    public ArrayList<ProcessTemplate> _templateList; // Lista szablonów dla generatora
     
     private Simulation _simulation; // Obecnie wykonywana symulacja
+    private IOController controller; // Kontroler wejścia/wyjścia
     
     // Zwraca sredni czas oczekiwania na realizacje
     public double getAverageTime()
@@ -29,15 +31,35 @@ public class ProcessManager
     }
     
     // Obsługa procesu
-    public void processController()
+    
+    // Pojedynczy krok
+    public void nextStep()
     {        
-        while(!_simulation.isDone())
+        processGenerator();
+        if(processList.size()!=0) _simulation.serve();
+        controller.update(); 
+    }
+        
+    // Nastepny proces
+    public void nextProcess()
+    {
+        int currentRealised = numberRealised;       
+        processGenerator();
+        while(currentRealised==numberRealised && processList.size()!=0)
         {
-            processGenerator(); // Wywołanie generatora procesów
-            IOController.generate(this); // Aktualizacja statystyk
-            _simulation.serve(); // Realizacja algorytmu
+            _simulation.serve();
         }
-         IOController.generate(this); // Aktualizacja statystyk
+        controller.update(); 
+    }
+    
+    // Zakoncz symulacje
+    public void endSimulation()
+    {       
+        while(processList.size()!=0)
+        {
+            _simulation.serve();
+        }
+        controller.update(); 
     }
     
     // Blokada generatora procesów
@@ -61,6 +83,7 @@ public class ProcessManager
         {
             if(template.remaining!=0 && workTime%template.interval == 0)
             {
+                controller.updateGeneratedCount();
                 String randomID = template.id
                         +UUID.randomUUID().toString(); // Generowanie losowego ID
                 Process newProcess = new Process(randomID,template.duration, workTime);
@@ -76,11 +99,18 @@ public class ProcessManager
         return _simulation.current;
     }
     
+    // Inicjalizuje PM
+    public void initialize(Simulation sim)
+    {
+        _simulation = sim;
+        controller.initialize();
+    }
+    
     public ProcessManager(ArrayList<Process> processList, ArrayList<ProcessTemplate> templateList)
     {
         this.processList = processList;
         _templateList = templateList;
-        this._simulation = new SJFWsimulation(this);
+        controller = new IOController(this);
     }
     
 }
