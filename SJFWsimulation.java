@@ -20,21 +20,11 @@ public class SJFWsimulation extends Simulation
 			procMan.workTime++;
 			current.doIt();
 			procMan.overallWaited += procMan.processList.size()-1;
-			if(current.isDone())
-			{
-				procMan.processList.remove(current);
-				procMan.numberRealised++;
-			}
 		}else {
 			if(!(current == null) && !current.isDone())
 			{
 			current.doIt();
 			procMan.workTime++;
-			if(current.isDone())
-			{
-				procMan.processList.remove(current);
-				procMan.numberRealised++;
-			}
 			}
 		}
 		
@@ -45,6 +35,11 @@ public class SJFWsimulation extends Simulation
 	}
 	public Process getShort()
 	{
+		if(current != null && current.isDone())
+		{
+			procMan.numberRealised++;
+			procMan.processList.remove(current);
+		}
 		int shortestTime = -1;
 		Process shortest = null;
 		if(procMan.processList.size()>0)
