@@ -145,6 +145,7 @@ public class Menu extends javax.swing.JFrame
         if(btnFCFS.isSelected()) sim = new FCFSsimulation(ProcMan);
         if(btnSJF.isSelected()) sim = new SJFWOsimulation(ProcMan);
         if(btnSJFw.isSelected()) sim = new SJFWsimulation(ProcMan);
+        if(btnROT.isSelected()) sim = new ROTsimulation(ProcMan);
         
         if(sim!=null) ProcMan.initialize(sim);
     }//GEN-LAST:event_jButton1ActionPerformed

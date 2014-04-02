@@ -28,7 +28,8 @@ public class SimulationGUI extends javax.swing.JFrame
         initComponents();
         
         Integer count = ProcMan._templateList.size();
-        lblGeneratorCount.setText(count.toString());              
+        lblGeneratorCount.setText(count.toString());  
+        lblROTQuant.setText((new Integer(ProcMan.quantSize)).toString());
         
     }
     

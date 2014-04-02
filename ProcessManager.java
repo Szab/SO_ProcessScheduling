@@ -44,10 +44,10 @@ public class ProcessManager
     public void nextProcess()
     {
         int currentRealised = numberRealised;       
-        processGenerator();
         while(currentRealised==numberRealised && processList.size()!=0)
         {
             _simulation.serve();
+            processGenerator();
         }
         controller.update(); 
     }
